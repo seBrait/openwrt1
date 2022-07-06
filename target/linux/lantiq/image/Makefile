@@ -676,18 +676,18 @@ define Device/arcadyan_vgv7510kw22-brn
 endef
 TARGET_DEVICES += arcadyan_vgv7510kw22-brn
 
-define Device/arcadyan_vgv8539kw22-brn
+define Device/arcadyan_vgv8539jw22-brn
   $(Device/lantiqBrnImage)
   IMAGE_SIZE := 3072k
-  DEVICE_DTS := VGV8539KW22BRN
+  DEVICE_DTS := VGV8539JW22BRN
   SIGNATURE := BRNDA723V
   MAGIC := 0x12345678
   CRC32_POLY := 0x04c11db7
-  DEVICE_TITLE := W 723V Typ B / Arcadyan VGV8539KW22 (BRN)
+  DEVICE_TITLE := W 723V Typ B / Arcadyan VGV8539JW22 (BRN)
   DEVICE_PACKAGES := kmod-rt2800-pci wpad-mini kmod-usb-dwc2 kmod-ltq-tapi kmod-ltq-vmmc
-  SUPPORTED_DEVICES += VGV8539KW22BRN
+  SUPPORTED_DEVICES += VGV8539JW22BRN
 endef
-TARGET_DEVICES += arcadyan_vgv8539kw22-brn
+TARGET_DEVICES += arcadyan_vgv8539jw22-brn
 
 
 define Device/arcadyan_vgv7519-nor
