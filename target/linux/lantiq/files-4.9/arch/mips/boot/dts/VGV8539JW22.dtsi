@@ -121,48 +121,48 @@
 		compatible = "gpio-leds";
 
 		dsl: dsl {
-			label = "vgv8539kw22:green:dsl";
+			label = "vgv8539jw22:green:dsl";
 			gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
 		};
 
 		internet_red {
-			label = "vgv8539kw22:red:internet";
+			label = "vgv8539jw22:red:internet";
 			gpios = <&gpio 10 GPIO_ACTIVE_LOW>;
 		};
 
 		info_red {
-			label = "vgv8539kw22:red:info";
+			label = "vgv8539jw22:red:info";
 			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
 		};
 
 		power_green: power {
-			label = "vgv8539kw22:green:power";
+			label = "vgv8539jw22:green:power";
 			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
 			default-state = "keep";
 		};
 
 		info_green {
-			label = "vgv8539kw22:green:info";
+			label = "vgv8539jw22:green:info";
 			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
 		};
 
 		internet_green: internet_green {
-			label = "vgv8539kw22:green:internet";
+			label = "vgv8539jw22:green:internet";
 			gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
 		};
 
 		wifi: wifi {
-			label = "vgv8539kw22:green:wlan";
+			label = "vgv8539jw22:green:wlan";
 			gpios = <&gpio 20 GPIO_ACTIVE_LOW>;
 		};
 
 		power_red: power2 {
-			label = "vgv8539kw22:red:power";
+			label = "vgv8539jw22:red:power";
 			gpios = <&gpio 28 GPIO_ACTIVE_LOW>;
 		};
 
 		phone {
-			label = "vgv8539kw22:green:telefon";
+			label = "vgv8539jw22:green:telefon";
 			gpios = <&gpio 29 GPIO_ACTIVE_LOW>;
 		};
 	};
