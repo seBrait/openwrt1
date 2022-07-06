@@ -39,6 +39,14 @@
 						reg = <0x430000 0x3c0000>;
 						brnboot,root-id = <0x01>;
 					};
+					
+					partition@7F0000 {
+						compatible = "brnboot,root-selector";
+						label = "Boot Params";
+						reg = <0x7F0000 0x10000>;
+						read-only;
+					};
+					
 				};
 			};
 		};
