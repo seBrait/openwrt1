@@ -204,6 +204,14 @@ arcadyan,vgv7510kw22-nor|arcadyan,vgv7510kw22-brn)
 		"2:lan:2" "3:lan:1" "4:lan:4" "5:lan:3" "0:wan:5" "6t@eth0"
 	;;
 
+arcadyan,vgv8539kw22-nor|arcadyan,vgv8539kw22-brn)
+        annex="b"
+        wan_mac=$(macaddr_add "$(mtd_get_mac_binary board_config 22)" 2)
+        ucidef_add_switch "switch0" \
+                "2:lan:2" "3:lan:1" "4:lan:4" "5:lan:3" "0:wan:5" "6t@eth0"
+        ;;
+
+
 arcadyan,vgv7519-nor|arcadyan,vgv7519-brn)
 	wan_mac=$(mtd_get_mac_binary board_config 22)
 	ucidef_add_switch "switch0" \

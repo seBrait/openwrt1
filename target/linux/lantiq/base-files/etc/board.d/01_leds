@@ -64,6 +64,12 @@ arcadyan,vgv7510kw22-nor|\
 arcadyan,vgv7510kw22-brn)
 	ucidef_set_led_wlan "wifi" "wifi" "vgv7510kw22:green:wlan" "phy0radio"
 	;;
+arcadyan,vgv8539kw22-nor|\
+arcadyan,vgv8539kw22-brn)
+        ucidef_set_led_wlan "wifi" "wifi" "vgv8539kw22:green:wlan" "phy0radio"
+        ;;
+
+
 arcadyan,vgv7519-nor|\
 arcadyan,vgv7519-brn)
 	ucidef_set_led_wlan "wifi" "wifi" "vgv7519:green:wireless" "phy0radio"
