@@ -7,50 +7,60 @@
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
-PKG_NAME:=ltq-vdsl-app
-PKG_VERSION:=4.17.18.6
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_NAME:=ltq-vdsl-vr11-app
+PKG_VERSION:=4.23.1
+# do not use AUTORELEASE here, this needs to be bumped manually because
+# ../ltq-vdsl-app/src/src/dsl_cpe_ubus.c is copied over
+PKG_RELEASE:=1
 PKG_BASE_NAME:=dsl_cpe_control
-PKG_SOURCE:=$(PKG_BASE_NAME)_vrx-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=@OPENWRT
-PKG_HASH:=da8bb929526a61aea0e153ef524331fcd472a1ebbc6d88ca017735a4f82ece02
-PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_BASE_NAME)-$(PKG_VERSION)
-PKG_LICENSE:=BSD-2-Clause
 
-PKG_BUILD_DEPENDS:=ltq-vdsl-vr9
+UGW_VERSION=8.5.2.10
+UGW_BASENAME=$(PKG_BASE_NAME)-ugw_$(UGW_VERSION)
+
+PKG_SOURCE:=$(UGW_BASENAME).tar.bz2
+PKG_SOURCE_URL:=https://gitlab.com/prpl-foundation/intel/$(PKG_BASE_NAME)/-/archive/ugw_$(UGW_VERSION)/
+PKG_HASH:=d21ec74ca30f7f3893a8aa26d2b74ec319652f6b112832efab6f1274c7e5d1fc
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(UGW_BASENAME)
+PKG_LICENSE:=BSD-2-Clause
+PKG_LICENSE_FILES:=LICENSE
+
+PKG_BUILD_DEPENDS:=ltq-vdsl-vr11
 
 PKG_FLAGS:=nonshared
 PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ltq-vdsl-app
+define Package/ltq-vdsl-vr11-app
   SECTION:=net
   CATEGORY:=Network
   TITLE:=Lantiq VDSL userland tool
   URL:=http://www.lantiq.com/
-  DEPENDS:=@TARGET_lantiq_xrx200 +libpthread +librt +ltq-dsl-base +libubox +libubus
+  DEPENDS:=@TARGET_ipq40xx +libpthread +librt +ltq-dsl-base +libubox +libubus
 endef
 
-define Package/ltq-vdsl-app/description
+define Package/ltq-vdsl-vr11-app/description
   Userland tool needed to control Lantiq VDSL CPE
 endef
 
-# ltq-vdsl-app uses a header provided by the MEI driver which has some
+# ltq-vdsl-vr11-app uses a header provided by the MEI driver which has some
 # conditionals.
 #
 # Define them here with the default values they would get in the MEI driver,
 # have the same view on both sides.
 #
-# If you change them, you need to change them for the ltq-vdsl-app as well
+# If you change them, you need to change them for the ltq-vdsl-vr11-app as well
 VDSL_APP_CFLAGS = \
 	-DMAX_CLI_PIPES=1 \
 	-DMEI_SUPPORT_DEBUG_STREAMS=1 \
 	-DMEI_SUPPORT_OPTIMIZED_FW_DL=1
 
 CONFIGURE_ARGS += \
+	--enable-debug-logger-support=no
+
+CONFIGURE_ARGS += \
 	--enable-vrx \
-	--enable-vrx-device=vr9 \
+	--enable-vrx-device=vr11 \
 	--enable-driver-include="-I$(STAGING_DIR)/usr/include/drv_vdsl_cpe_api" \
 	--enable-device-driver-include="-I$(STAGING_DIR)/usr/include/vdsl/" \
 	--enable-ifxos \
@@ -58,8 +68,7 @@ CONFIGURE_ARGS += \
 	--enable-ifxos-library="-I$(STAGING_DIR)/usr/lib" \
 	--enable-add-appl-cflags="$(VDSL_APP_CFLAGS)"  \
 	--enable-debug \
-	--disable-dti \
-	--with-channels-per-line="1"
+	--disable-dti
 
 CONFIGURE_ARGS += \
 	--enable-model=full \
@@ -69,14 +78,16 @@ CONFIGURE_ARGS += \
 #CONFIGURE_ARGS += --enable-model=typical
 #CONFIGURE_ARGS += --enable-model=debug
 
-define Package/ltq-vdsl-app/install
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	$(CP) ../ltq-vdsl-app/src/src/dsl_cpe_ubus.c $(PKG_BUILD_DIR)/src/
+endef
+
+define Package/ltq-vdsl-vr11-app/install
 	$(INSTALL_DIR) $(1)/etc/init.d $(1)/sbin $(1)/etc/hotplug.d/dsl
 	$(INSTALL_BIN) ./files/dsl_control $(1)/etc/init.d/
-	$(INSTALL_BIN) ./files/10_atm.sh $(1)/etc/hotplug.d/dsl
-	$(INSTALL_BIN) ./files/10_ptm.sh $(1)/etc/hotplug.d/dsl
-
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/dsl_cpe_control $(1)/sbin/vdsl_cpe_control
 	$(INSTALL_BIN) ./files/dsl_cpe_pipe.sh $(1)/sbin/
 endef
 
-$(eval $(call BuildPackage,ltq-vdsl-app))
+$(eval $(call BuildPackage,ltq-vdsl-vr11-app))
